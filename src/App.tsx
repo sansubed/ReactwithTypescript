@@ -5,9 +5,12 @@
 //1. using then method (anything inside then is async and will execute at end)
 //2. async await
 
-const apiURL = "https://restcountries.com/v3.1/all";
-const result = fetch(apiURL);
+import { useEffect, useState } from "react";
 
+const apiURL = "https://restcountries.com/v3.1/all";
+//const result = fetch(apiURL);
+
+/*
 console.log("Before handling promise"); //1 st run
 result
   .then((response) => {
@@ -16,19 +19,38 @@ result
   })
   .then((data) => {
     console.log("Inside second then"); //5th run
+  })
+  .catch((error) => {
+    console.log("You got an error", error);
   });
-
+*/
 //Block code: weather call stack blocked or not
+/*
 for (let i = 0; i < 100; i++) {
   console.log("Running loop"); // 2nd run
 }
 console.log("After handling promise"); //3rd run
-
-//refined above line 12 to 17 in line 21
-//result.then((response) => response.json().then((data) => console.log(data)));
+*/
 
 function App() {
-  return <div>App</div>;
+  const [countries, setCountries] = useState([]);
+  console.log(countries);
+  //refined above line 12 to 22 in line 21
+  useEffect(() => {
+    fetch(apiURL)
+      .then((response) => response.json())
+      .then((data) => setCountries(data));
+  }, []);
+  return (
+    <div>
+      {countries.map((country, index) => (
+        <div key={index}>
+          <img src={country.flags.png} />
+          {country.name.common} {country.flag}
+        </div>
+      ))}
+    </div>
+  );
 }
 export default App;
 
