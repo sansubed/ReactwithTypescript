@@ -34,12 +34,33 @@ console.log("After handling promise"); //3rd run
 
 function App() {
   const [countries, setCountries] = useState([]);
+  const [error, setError] = useState("");
   console.log(countries);
   //refined above line 12 to 22 in line 21
-  useEffect(() => {
+  /*useEffect(() => {
     fetch(apiURL)
       .then((response) => response.json())
       .then((data) => setCountries(data));
+  }, []);*/
+
+  useEffect(() => {
+    console.log("before ");
+    //immediately invoked function expression (iife)
+    async function getCountries() {
+      console.log("Running asyn function");
+      try {
+        const res = await fetch(apiURL); //asyn code
+        console.log("Got json data");
+        const data = await res.json();
+        setCountries(data);
+      } catch (e) {
+        console.log("You got an error", e);
+      }
+    }
+
+    getCountries();
+
+    console.log("after ");
   }, []);
   return (
     <div>
