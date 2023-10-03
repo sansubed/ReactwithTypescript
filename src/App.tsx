@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 const apiUrl = "https://api.thecatapi.com/v1/images/search";
+
 function App() {
   const [catData, setCatData] = useState([]);
   useEffect(() => {
@@ -8,16 +8,18 @@ function App() {
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        setCatData(data);
+        return data;
+        //setCatData(data);
       } catch (e) {
-        console.log("Error encountered: ", e);
+        //console.log("Error encountered: ", e);
+        throw Error("Enter your message here");
       }
     }
     getCatData();
   }, []);
 
   return catData[0] ? (
-    <div>{<img src={catData[0].url} width="500px" />}</div>
+    <img src={catData[0].url} width="500px" /> //no need outer div and {}
   ) : (
     <p>No Cat found</p>
   );
